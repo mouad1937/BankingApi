@@ -1,0 +1,2 @@
+To run this application, please first run all the queries in `create-databse.sql` in your MySQL server.
+To use the Swagger GUI, run the application and visit `http://localhost:8080/swagger-ui.html` in your browser.
