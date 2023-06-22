@@ -1,5 +1,6 @@
 package com.codecrackers.bankapi.controller;
 
+import com.codecrackers.bankapi.model.CustomMessage;
 import com.codecrackers.bankapi.service.CustomerService;
 import com.codecrackers.bankapi.model.Customer;
 import io.swagger.annotations.Api;
@@ -47,18 +48,20 @@ public class CustomerController {
 
     @ApiOperation(value = "post")
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
+    public ResponseEntity<CustomMessage> createCustomer(@RequestBody Customer customer) {
+        customerService.createCustomer(customer);
+        return  ResponseEntity.status( HttpStatus.CREATED).body(new CustomMessage("200","Customer account updated"));
     }
 
     @ApiOperation(value = "put")
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+    public ResponseEntity<CustomMessage> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
         Customer updatedCustomer = customerService.updateCustomer(id, customer);
+        CustomMessage message=new CustomMessage("200","Customer account updated");
         if (updatedCustomer != null) {
-            return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+            return new ResponseEntity(updatedCustomer, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
     @ApiOperation(value = "delete")
